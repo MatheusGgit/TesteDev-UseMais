@@ -11,8 +11,16 @@
 node_modules
 vendor
 
+bootstrap/cache/*.php
+bootstrap/ssr
+
+resources/js/actions
+resources/js/routes
+resources/js/wayfinder
+
 public/build
 public/hot
+public/fonts-manifest.dev.json
 public/storage
 
 storage/*.key

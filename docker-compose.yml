@@ -5,8 +5,10 @@ services:
             dockerfile: Dockerfile
         ports:
             - '8000:8000'
+        environment:
+            DB_DATABASE: /app/storage/database/database.sqlite
         volumes:
-            - sqlite-data:/app/database/database.sqlite
+            - sqlite-data:/app/storage/database
         restart: unless-stopped
 
 volumes:

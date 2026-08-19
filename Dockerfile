@@ -21,11 +21,11 @@ RUN npm ci
 COPY . .
 
 RUN cp .env.example .env \
+    && echo "DB_DATABASE=/app/storage/database/database.sqlite" >> .env \
     && php artisan key:generate --force \
     && php artisan package:discover --ansi \
     && npm run build \
     && composer dump-autoload --optimize --no-dev \
-    && touch database/database.sqlite \
     && rm -rf node_modules tests
 
 FROM php:8.3-cli AS runtime
@@ -39,10 +39,12 @@ WORKDIR /app
 
 COPY --from=build /app /app
 
-RUN chmod -R a+rwX storage bootstrap/cache database
+RUN chmod -R a+rwX storage bootstrap/cache
 
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint
 RUN chmod +x /usr/local/bin/entrypoint
+
+ENV DB_DATABASE=/app/storage/database/database.sqlite
 
 EXPOSE 8000
 
